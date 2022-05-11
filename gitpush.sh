@@ -5,9 +5,9 @@ read commitMessage
 
 git commit -m "$commitMessage"
 
-branch = 'master'
-read branch
+MY_BRANCH = 'master'
+read MY_BRANCH 
 
-git push origin $branch
+git push origin $MY_BRANCH 
 
 read
