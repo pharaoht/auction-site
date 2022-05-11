@@ -56,7 +56,7 @@ module.exports = class UserValidator {
         const isEmailValid = emailRegexp.test(email);
         
         if(email === ''){
-            errors.emailLength = 'You must provide an Email in order to create an account.'
+            errors.emailLength = 'You must provide an Email address in order to create an account.'
             return errors;
         };
 
@@ -71,8 +71,7 @@ module.exports = class UserValidator {
     static verifyPassword(password){
 
         const errors = {};
-
-        var passwordRegex = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+        const passwordRegex = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
         const isPasswordValid = passwordRegex.test(password);
 
         if(password === ''){
@@ -109,6 +108,9 @@ module.exports = class UserValidator {
         const firstNameValidator = this.verifyFirstName(userData.firstName);
         const lastNameValidator = this.verifyLastName(userData.lastName);
         const emailValidator = this.verifyEmail(userData.email);
+        const passwordValidator = this.verifyPassword(userData.password);
+
+        console.log(firstNameValidator)
 
 
 
@@ -121,3 +123,13 @@ module.exports = class UserValidator {
     // !last_name ? data.last_name = 'You must provide a Last Name in order to create an account' :  null;
     // !email ? data.email = 'You must provide an email in order to create an account' : null;
     //cpode changfe
+
+
+        const userData = {
+        firstName: 'Pt',
+        lastName: 'lr',
+        email: 'email',
+        password: '779088',
+        isActive:false,
+        isAdmin: false,
+    };
