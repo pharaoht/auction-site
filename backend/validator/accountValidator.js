@@ -60,11 +60,10 @@ module.exports = class UserValidator {
         };
 
         if(!isEmailValid){
-            return errors.email = 'You must provide an Email address in order to create an account.'
+            return errors.email = 'You must provide a valid Email address in order to create an account.'
         };
 
-        
-
+        return false;
     };
 
     static verifyPassword(password){
