@@ -21,11 +21,13 @@ exports.createNewUser = (req, res, next) => {
 
     const verifiedUserData = UserValidator.verifyUserAccount(userData);
 
-    
+    if(Object.keys(verifiedUserData) > 0 ){
+        res.status(400);
+        return res.json({errors:verifiedUserData})
+    };
 
+    const user = new User(null, verifiedUserData.first_name, verifiedUserData.last_name, verifiedUserData.email, verifiedUserData.password, verifiedUserData.isActive, verifiedUserData.isAdmin);
 
-    const user = new User(null, first_name, last_name, email, password, isAdmin);
-    //returns a promise
     user.createNewUser()
     .then(response => res.json({result:'Your account has been created'}))
     .catch(err => {

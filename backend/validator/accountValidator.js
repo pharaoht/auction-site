@@ -85,10 +85,12 @@ module.exports = class UserValidator {
         };
 
         if(password.search(/[a-z]/i) < 0){
+
             errors.passwordChar = 'You must provide a Password with at least 1 character.'
         }
 
         if(password.search(/[0-9]/) < 0){
+
             errors.passwordDigit = 'You must provide a Password with at least 1 digit.'
         }
 
@@ -109,33 +111,26 @@ module.exports = class UserValidator {
 
         const errors = {};
 
-        const firstNameValidator = this.verifyFirstName(userData.firstName);
-        const lastNameValidator = this.verifyLastName(userData.lastName);
+        const firstNameValidator = this.verifyFirstName(userData.first_name);
+        const lastNameValidator = this.verifyLastName(userData.last_name);
         const emailValidator = this.verifyEmail(userData.email);
         const passwordValidator = this.verifyPassword(userData.password);
 
-        if(firstNameValidator)
-
-        console.log(firstNameValidator)
-
-
-
-
+        Object.keys(firstNameValidator) > 0 ? errors.firstNameValidations = firstNameValidator : null;
+        Object.keys(lastNameValidator) > 0 ? errors.lastNameValidations = firstNameValidator : null;
+        Object.keys(emailValidator) > 0 ? errors.emailValidations = firstNameValidator : null;
+        Object.keys(passwordValidator) > 0 ? errors.passwordValidations = firstNameValidator : null;
+        
         return errors;
-    }
+    };
 }
 
-    // !first_name ? data.first_name = 'You must provide a First Name in order to create an account' : null;
-    // !last_name ? data.last_name = 'You must provide a Last Name in order to create an account' :  null;
-    // !email ? data.email = 'You must provide an email in order to create an account' : null;
-    //cpode changfe
 
-
-        const userData = {
-        firstName: 'Pt',
-        lastName: 'lr',
-        email: 'email',
-        password: '779088',
-        isActive:false,
-        isAdmin: false,
-    };
+    //     const userData = {
+    //     firstName: 'Pt',
+    //     lastName: 'lr',
+    //     email: 'email',
+    //     password: '779088',
+    //     isActive:false,
+    //     isAdmin: false,
+    // };
