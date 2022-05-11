@@ -67,7 +67,7 @@ module.exports = class UserValidator {
     };
 
     static verifyPassword(password){
-
+        console.log(password)
     };
 
     static verifyUserAccount(userData){

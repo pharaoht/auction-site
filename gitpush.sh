@@ -7,7 +7,6 @@ git commit -m "$commitMessage"
 
 export branch ="master"
 
-
 git push origin $branch
 
 read
