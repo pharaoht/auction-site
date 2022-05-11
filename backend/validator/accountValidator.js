@@ -56,18 +56,50 @@ module.exports = class UserValidator {
         const isEmailValid = emailRegexp.test(email);
         
         if(email === ''){
-            return errors.emailLength = 'You must provide an Email in order to create an account.'
+            errors.emailLength = 'You must provide an Email in order to create an account.'
+            return errors;
         };
 
         if(!isEmailValid){
-            return errors.email = 'You must provide a valid Email address in order to create an account.'
+            errors.email = 'You must provide a valid Email address in order to create an account.'
+            return errors;
         };
 
         return false;
     };
 
     static verifyPassword(password){
-        console.log(password)
+
+        const errors = {};
+
+        var passwordRegex = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+        const isPasswordValid = passwordRegex.test(password);
+
+        if(password === ''){
+
+            return errors.passwordExist = 'You must provide a Passoword in order to create an account.'
+        };
+
+        if(password.length < 6){
+
+            errors.passwordLength = 'You must provide a Password with at least a length of 6 characters.'
+        };
+
+        if(password.search(/[a-z]/i) < 0){
+            errors.passwordChar = 'You must provide a Password with at least 1 character.'
+        }
+
+        if(password.search(/[0-9]/) < 0){
+            errors.passwordDigit = 'You must provide a Password with at least 1 digit.'
+        }
+
+        if(!isPasswordValid){
+
+            errors.passwordSpecChar = 'You must provide a Password with at least 1 special character ex: !@#$%^&*_+-='
+        }
+
+        return errors
+
     };
 
     static verifyUserAccount(userData){
@@ -76,6 +108,8 @@ module.exports = class UserValidator {
 
         const firstNameValidator = this.verifyFirstName(userData.firstName);
         const lastNameValidator = this.verifyLastName(userData.lastName);
+        const emailValidator = this.verifyEmail(userData.email);
+
 
 
 
