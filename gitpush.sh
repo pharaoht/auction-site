@@ -5,7 +5,7 @@ read commitMessage
 
 git commit -m "$commitMessage"
 
-export branch ="hello stackoverflow"
+export branch ="master"
 read branch
 
 git push origin $branch
