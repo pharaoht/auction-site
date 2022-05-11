@@ -6,7 +6,7 @@ read commitMessage
 git commit -m "$commitMessage"
 
 export branch ="master"
-read branch
+
 
 git push origin $branch
 
