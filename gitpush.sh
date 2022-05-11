@@ -5,12 +5,10 @@ read commitMessage
 
 git commit -m "$commitMessage"
 
-echo 'Enter the name of the branch:'
+export branch ="hello stackoverflow"
 read branch
 
 git push origin $branch
 
-export s1="hello stackoverflow"
-echo $s1
-
 read
+exit
