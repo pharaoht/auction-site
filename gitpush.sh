@@ -5,7 +5,7 @@ read commitMessage
 
 git commit -m "$commitMessage"
 
-echo 'Enter the name of the branch:'
+branch = 'master'
 read branch
 
 git push origin $branch
