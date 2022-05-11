@@ -71,7 +71,7 @@ module.exports = class UserValidator {
     static verifyPassword(password){
 
         const errors = {};
-        const passwordRegex = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+        const passwordRegex = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,255}$/;
         const isPasswordValid = passwordRegex.test(password);
 
         if(password === ''){
@@ -97,6 +97,10 @@ module.exports = class UserValidator {
             errors.passwordSpecChar = 'You must provide a Password with at least 1 special character ex: !@#$%^&*_+-='
         }
 
+        if(Object.keys(errors) === 0){
+            return false;
+        }
+
         return errors
 
     };
@@ -109,6 +113,8 @@ module.exports = class UserValidator {
         const lastNameValidator = this.verifyLastName(userData.lastName);
         const emailValidator = this.verifyEmail(userData.email);
         const passwordValidator = this.verifyPassword(userData.password);
+
+        if(firstNameValidator)
 
         console.log(firstNameValidator)
 
