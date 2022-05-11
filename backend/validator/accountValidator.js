@@ -76,7 +76,7 @@ module.exports = class UserValidator {
 
         if(password === ''){
 
-            return errors.passwordExist = 'You must provide a Passoword in order to create an account.'
+            return errors.passwordExist = 'You must provide a Password in order to create an account.'
         };
 
         if(password.length < 6){
@@ -130,7 +130,7 @@ module.exports = class UserValidator {
     //     firstName: 'Pt',
     //     lastName: 'lr',
     //     email: 'email',
-    //     password: '779088',
+    //     password: '12324',
     //     isActive:false,
     //     isAdmin: false,
     // };
