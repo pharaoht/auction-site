@@ -1,5 +1,6 @@
 const User = require('../models/users');
 const UserValidator = require('../validator/accountValidator');
+const Bcrypt = require('bcrypt');
 
 
 exports.getUsers = (req, res, next) => {
@@ -26,13 +27,17 @@ exports.createNewUser = (req, res, next) => {
         return res.json({errors:verifiedUserData})
     };
 
-    const user = new User(null, verifiedUserData.first_name, verifiedUserData.last_name, verifiedUserData.email, verifiedUserData.password, verifiedUserData.isActive, verifiedUserData.isAdmin);
+    return Bcrypt.hash(userData.password, 12)
+    .then(hashedPassword => {
 
-    user.createNewUser()
-    .then(response => res.json({result:'Your account has been created, Please check you email to Activate your account with us.'}))
-    .catch(err => {
-        res.status(400);
-        res.json({result:err});
+        const user = new User(null, userData.first_name, userData.last_name, userData.email, hashedPassword, userData.isActive, userData.isAdmin);
+
+        user.createNewUser()
+        .then(response => res.json({result:'Your account has been created, Please check you email to Activate your account with us.'}))
+        .catch(err => {
+            res.status(400);
+            res.json({result:err});
+        });
     });
 
 };
