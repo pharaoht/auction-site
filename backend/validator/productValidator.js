@@ -1,4 +1,4 @@
-module.exports =class ProductValidator{
+module.exports = class ProductValidator{
 
     static verifyProductName(){
 
