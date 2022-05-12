@@ -1,4 +1,3 @@
-
 module.exports = class UserValidator {
 
     static verifyFirstName(firstName){

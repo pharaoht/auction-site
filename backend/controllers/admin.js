@@ -27,7 +27,7 @@ exports.createNewUser = (req, res, next) => {
         return res.json({errors:verifiedUserData})
     };
 
-    return Bcrypt.hash(userData.password, 12)
+    Bcrypt.hash(userData.password, 12)
     .then(hashedPassword => {
 
         const user = new User(null, userData.first_name, userData.last_name, userData.email, hashedPassword, userData.isActive, userData.isAdmin);
