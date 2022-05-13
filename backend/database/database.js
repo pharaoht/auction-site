@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     host:'localhost',
     user:'root',
     database:'auction_schema',
-    password:'779088nV!',
+    password:'',
 });
 
 module.exports = pool.promise();
