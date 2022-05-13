@@ -34,5 +34,24 @@ exports.createNewAdminUser = (req, res, next) => {
             res.json({result:err});
         });
     });
+};
+
+exports.getAllAdminUsers = (req, res, next) => {
+
+    const isUserAdmin = req.body.isAdmin;
+
+    if(!isUserAdmin){
+        return res.json({result:'You must be an Admin user to access this data.'})
+    };
+
+    User.getAdminUsers()
+    .then(([rows, metaData]) => {
+        res.status(200);
+        res.json({result:rows})
+    })
+    .catch(err => {
+        console.log(err);
+        res.json({error:err})
+    })
 
 };

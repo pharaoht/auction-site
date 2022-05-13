@@ -25,7 +25,11 @@ module.exports = class User{
         return db.execute('SELECT first_name, last_name, email FROM users WHERE user.id = ?', [id])
     };
 
-    static updateUserById(id){
-        return db.execute('SELECT * FROM users WHERE user.id = ?', [id])
+    static updateUserById(first_name, last_name, password, id){
+        return db.execute('UPDATE users SET first_name = ?, last_name = ?, password = ? WHERE user.id = ?', [first_name, last_name, password, id])
+    };
+
+    static getAdminUsers(){
+        return db.execute('SELECT * FROM users WHERE isAdmin = TRUE')
     };
 };
