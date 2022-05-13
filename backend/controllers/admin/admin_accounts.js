@@ -40,9 +40,7 @@ exports.getAllAdminUsers = (req, res, next) => {
 
     const isUserAdmin = req.body.isAdmin;
 
-    if(!isUserAdmin){
-        return res.json({result:'You must be an Admin user to access this data.'})
-    };
+    if(!isUserAdmin) return res.json({result:'You must be an Admin user to access this data.'});
 
     User.getAdminUsers()
     .then(([rows, metaData]) => {

@@ -116,9 +116,9 @@ module.exports = class UserValidator {
         const passwordValidator = this.verifyPassword(userData.password);
 
         Object.keys(firstNameValidator) > 0 ? errors.firstNameValidations = firstNameValidator : null;
-        Object.keys(lastNameValidator) > 0 ? errors.lastNameValidations = firstNameValidator : null;
-        Object.keys(emailValidator) > 0 ? errors.emailValidations = firstNameValidator : null;
-        Object.keys(passwordValidator) > 0 ? errors.passwordValidations = firstNameValidator : null;
+        Object.keys(lastNameValidator) > 0 ? errors.lastNameValidations = lastNameValidator : null;
+        Object.keys(emailValidator) > 0 ? errors.emailValidations = emailValidator : null;
+        Object.keys(passwordValidator) > 0 ? errors.passwordValidations = passwordValidator : null;
 
         return errors;
     };
