@@ -119,9 +119,10 @@ module.exports = class UserValidator {
         Object.keys(lastNameValidator) > 0 ? errors.lastNameValidations = firstNameValidator : null;
         Object.keys(emailValidator) > 0 ? errors.emailValidations = firstNameValidator : null;
         Object.keys(passwordValidator) > 0 ? errors.passwordValidations = firstNameValidator : null;
-        
+
         return errors;
     };
+
 }
 
 

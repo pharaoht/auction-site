@@ -1,13 +1,8 @@
-const User = require('../models/users');
-const UserValidator = require('../validator/accountValidator');
+const User = require('../../models/accounts');
+const UserValidator = require('../../validator/accountValidator');
 const Bcrypt = require('bcrypt');
 
-
-exports.getUsers = (req, res, next) => {
-    
-    //auth user
-    User.fetchAllUsers(users => res.json({results:users}));
-};
+//controller for all regular user access
 
 exports.createNewUser = (req, res, next) => {
 
@@ -33,7 +28,7 @@ exports.createNewUser = (req, res, next) => {
         const user = new User(null, userData.first_name, userData.last_name, userData.email, hashedPassword, userData.isActive, userData.isAdmin);
 
         user.createNewUser()
-        .then(response => res.json({result:'Your account has been created, Please check you email to Activate your account with us.'}))
+        .then(response => res.json({result:'Your account has been created, Please check your email to activate your account.'}))
         .catch(err => {
             res.status(400);
             res.json({result:err});
@@ -41,23 +36,3 @@ exports.createNewUser = (req, res, next) => {
     });
 
 };
-
-exports.findUserById = (req, res, next) => {
-
-    const id = req.body.id;
-
-    User.findUserById(id)
-    .then(([rows, metaData])=>res.json({results:rows}))
-    .catch(err => {
-        res.status(400);
-        res.json({result:err});
-    });
-};
-
-exports.testRoute = (req, res, next) => {
-    console.log('test route');
-    res.status(200)
-    res.json({result:'Hello from the backend'})
-}
-
- 
