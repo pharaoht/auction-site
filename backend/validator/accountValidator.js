@@ -122,6 +122,7 @@ module.exports = class UserValidator {
         Object.keys(passwordValidator).length > 0 ? errors.passwordValidations = passwordValidator : null;
 
         return errors;
+
     };
 
 }

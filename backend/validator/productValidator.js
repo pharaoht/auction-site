@@ -35,5 +35,8 @@ module.exports = class ProductValidator{
 
     static verifyProduct(productData){
         const errors = {};
+
+        const productNameValidator = this.verifyProductName(productData.product_name);
+        const productDescValidator = this.verifyProductDesc(productData.product_desc);
     };
 }

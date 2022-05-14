@@ -19,7 +19,7 @@ module.exports = class Product{
     };
 
     createNewProduct(){
-        return db.execute('INSERT INTO products (id, product_name, owner, photo1, photo2, photo3, upload_date, bid_price, desc, auction_start, inStock) VALUES (UUID(),?,?,?,?,?, NOW(),?,?,?,?)'
+        return db.execute('INSERT INTO products (id, product_name, owner, photo1, photo2, photo3, upload_date, bid_price, desc, auction_start, isSold) VALUES (UUID(),?,?,?,?,?, NOW(),?,?,?,?)'
         ,[this.product_name,this.owner,this.photo1,this.photo2,this.photo3,this.upload_date,this.bid_price,this.desc,this.auction_start, this.isSold])
     };
 
@@ -28,7 +28,7 @@ module.exports = class Product{
     };
 
     static deleteProductById(id){
-
+        return db.execute('DELETE FROM products WHERE product.id = ?', [id])
     };
 
     static incrementBidPrce(id){
@@ -36,7 +36,7 @@ module.exports = class Product{
     };
 
     static fetchAllProducts(){
-
+        return db.execute('SELECT * FROM products')
     };
 
     static fetchAllProductsByUserId(id){

@@ -17,11 +17,6 @@ exports.getProductsSoonToStart = (req, res, next) => {
 };
 
 exports.createNewProduct = (req,res,next) => {
-
-    // if(!req.session.isLoggedIn){
-    //     res.status(400);
-    //     return res.json({result:'You must be logged in to create a product'})
-    // }
    
     const productData = {
         ownerId: req.body.ownerId,
@@ -38,7 +33,7 @@ exports.createNewProduct = (req,res,next) => {
 
     const productValidation = ProductValidator.verifyProduct(productData);
 
-    if(Object.keys(productValidation) > 0){
+    if(Object.keys(productValidation).length > 0){
         res.status(400);
         return res.json({errors:productValidation})
     };
@@ -55,8 +50,20 @@ exports.createNewProduct = (req,res,next) => {
         res.status(400);
         res.json({errors:err});
     })
-}
+};
 
 exports.getAllProductsByUserId = (req, res, next) => {
     //get all products from a user
-}
+};
+
+exports.incrementBid = (req, res, next) => {
+
+};
+
+exports.deleteProduct = (req, res, next) => {
+
+};
+
+exports.editProduct = () => {
+
+};
