@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-const adminAccountRoutes = require('./routes/admin/admin');
+const adminAccountRoutes = require('./routes/admin/admin_routes');
 const userAccountRoutes = require('./routes/user/user');
 
 app.use(bodyParser.json());

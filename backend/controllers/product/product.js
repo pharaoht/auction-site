@@ -1,5 +1,5 @@
-const Product = require('../models/product');
-const ProductValidator = require('../validator/productValidator');
+const Product = require('../../models/product');
+const ProductValidator = require('../../validator/productValidator');
 
 exports.getProductsSoonToStart = (req, res, next) => {
 
@@ -33,7 +33,7 @@ exports.createNewProduct = (req,res,next) => {
         upload_date: req.body.upload_date,
         product_name: req.body.product_name,
         auction_start:req.body.auction_start,
-        isInStock:req.body.isInStock,
+        isSold:false,
     }
 
     const productValidation = ProductValidator.verifyProduct(productData);

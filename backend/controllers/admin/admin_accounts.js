@@ -16,8 +16,8 @@ exports.createNewAdminUser = (req, res, next) => {
     };
 
     const verifiedUserData = UserValidator.verifyUserAccount(userData);
-
-    if(Object.keys(verifiedUserData) > 0 ){
+    
+    if(Object.keys(verifiedUserData).length > 0 ){
         res.status(400);
         return res.json({errors:verifiedUserData})
     };

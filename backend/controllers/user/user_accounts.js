@@ -17,7 +17,7 @@ exports.createNewUser = (req, res, next) => {
 
     const verifiedUserData = UserValidator.verifyUserAccount(userData);
 
-    if(Object.keys(verifiedUserData) > 0 ){
+    if(Object.keys(verifiedUserData).length > 0 ){
         res.status(400);
         return res.json({errors:verifiedUserData})
     };
@@ -70,7 +70,7 @@ exports.updateUserInfo = (req, res, next) => {
 
     const verifiedUserData = UserValidator.verifyUserAccount(userData);
 
-    if(Object.keys(verifiedUserData) > 0 ){
+    if(Object.keys(verifiedUserData).length > 0 ){
         res.status(400);
         return res.json({errors:verifiedUserData})
     };
@@ -81,5 +81,25 @@ exports.updateUserInfo = (req, res, next) => {
         res.status(200)
         res.json({result:'Your account has successfully been updated!'})
     })
-    .catch()
+    .catch(err => {
+        console.log(err);
+        res.status(400);
+        res.json({error:err});
+    })
 };
+
+exports.findUserById = (req, res, next) => {
+
+    const userId = req.body.id;
+
+    User.findUserById()
+    .then(([rows, metaData]) => {
+        res.status(200);
+        res.json({results:rows});
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(400);
+        res.json({error:err});
+    })
+}

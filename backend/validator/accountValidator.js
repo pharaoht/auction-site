@@ -6,6 +6,7 @@ module.exports = class UserValidator {
 
         if(firstName === ''){
             errors.empty = 'You must provide a First Name in order to create an account.'
+            return errors;
         };
 
         if(firstName.length < 3){
@@ -115,10 +116,10 @@ module.exports = class UserValidator {
         const emailValidator = this.verifyEmail(userData.email);
         const passwordValidator = this.verifyPassword(userData.password);
 
-        Object.keys(firstNameValidator) > 0 ? errors.firstNameValidations = firstNameValidator : null;
-        Object.keys(lastNameValidator) > 0 ? errors.lastNameValidations = lastNameValidator : null;
-        Object.keys(emailValidator) > 0 ? errors.emailValidations = emailValidator : null;
-        Object.keys(passwordValidator) > 0 ? errors.passwordValidations = passwordValidator : null;
+        Object.keys(firstNameValidator).length > 0 ? errors.firstNameValidations = firstNameValidator : null;
+        Object.keys(lastNameValidator).length > 0 ? errors.lastNameValidations = lastNameValidator : null;
+        Object.keys(emailValidator).length > 0 ? errors.emailValidations = emailValidator : null;
+        Object.keys(passwordValidator).length > 0 ? errors.passwordValidations = passwordValidator : null;
 
         return errors;
     };
