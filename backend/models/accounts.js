@@ -32,4 +32,8 @@ module.exports = class User{
     static getAdminUsers(){
         return db.execute('SELECT * FROM users WHERE isAdmin = TRUE')
     };
+
+    static findUserByEmail(email){
+        return db.execute('SELECT * FROM users WHERE email = ?', [email]);
+    }
 };

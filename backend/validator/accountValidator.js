@@ -135,4 +135,9 @@ module.exports = class UserValidator {
     //     password: '12324',
     //     isActive:false,
     //     isAdmin: false,
-    // };
+    // 
+
+  //  "first_name":"Tesr",
+   // "last_name":"test",
+   // "email":"email@ehail.com",
+    //"password":"779088"

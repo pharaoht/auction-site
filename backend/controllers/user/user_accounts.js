@@ -30,6 +30,8 @@ exports.createNewUser = (req, res, next) => {
         user.createNewUser()
         .then(response => {
             //send email
+            req.session.isLoggedIn = true;
+            req.session.isAdmin = false;
             res.json({result:'Your account has been created, Please check your email to activate your account.'})
         
         })

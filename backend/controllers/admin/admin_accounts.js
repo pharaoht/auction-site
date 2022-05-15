@@ -28,7 +28,11 @@ exports.createNewAdminUser = (req, res, next) => {
         const user = new User(null, userData.first_name, userData.last_name, userData.email, hashedPassword, userData.isActive, userData.isAdmin);
 
         user.createNewUser()
-        .then(response => res.json({result:'Your account has been created, You are now an Admin User'}))
+        .then(response => {
+            req.session.isLoggedIn = true;
+            req.session.isAdmin = true;
+            res.json({result:'Your account has been created, You are now an Admin User'});
+        })
         .catch(err => {
             res.status(400);
             res.json({result:err});
@@ -37,10 +41,6 @@ exports.createNewAdminUser = (req, res, next) => {
 };
 
 exports.getAllAdminUsers = (req, res, next) => {
-
-    const isUserAdmin = req.body.isAdmin;
-
-    if(!isUserAdmin) return res.json({result:'You must be an Admin user to access this data.'});
 
     User.getAdminUsers()
     .then(([rows, metaData]) => {
