@@ -13,6 +13,11 @@ exports.createNewAdminUser = (req, res, next) => {
         password: req.body.password,
         isActive:true,
         isAdmin: true,
+        key: req.body.key,
+    };
+
+    if(key !== 'secretAdminUserKey2022'){
+        return res.json({result:'The Admin key is invalid. Please ask the owner for the key.'})
     };
 
     const verifiedUserData = UserValidator.verifyUserAccount(userData);
@@ -29,9 +34,7 @@ exports.createNewAdminUser = (req, res, next) => {
 
         user.createNewUser()
         .then(response => {
-            req.session.isLoggedIn = true;
-            req.session.isAdmin = true;
-            res.json({result:'Your account has been created, You are now an Admin User'});
+            return res.status(200).json({result:'This account is now an Admin User. Please check your email to activate your account.'})
         })
         .catch(err => {
             res.status(400);

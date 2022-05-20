@@ -126,18 +126,3 @@ module.exports = class UserValidator {
     };
 
 }
-
-
-    //     const userData = {
-    //     firstName: 'Pt',
-    //     lastName: 'lr',
-    //     email: 'email',
-    //     password: '12324',
-    //     isActive:false,
-    //     isAdmin: false,
-    // 
-
-  //  "first_name":"Tesr",
-   // "last_name":"test",
-   // "email":"email@ehail.com",
-    //"password":"779088"

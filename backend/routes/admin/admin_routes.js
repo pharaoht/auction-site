@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/create-user/', adminController.createNewAdminUser);
 
-router.get('/get-admin-users/', authMiddleWare.isAdmin, adminController.getAllAdminUsers);
+router.get('/get-admin-users/', adminController.getAllAdminUsers);
 
 module.exports = router;
 

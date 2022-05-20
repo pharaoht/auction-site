@@ -46,4 +46,8 @@ module.exports = class Product{
     static fetchProductsByDate(){
 
     };
+
+    static updateProductById(id){
+        return db.execute('SELECT * FROM products WHERE product.id', [id])
+    };
 }

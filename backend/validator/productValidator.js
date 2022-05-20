@@ -9,20 +9,43 @@ module.exports = class ProductValidator{
             errors.emptyProductName = 'You must provide a product name.'
             return errors;
         }
+
+        if(productName.length < 3){
+            errors.productNameMinLength = 'You must provide a product name with at least 3 characters.'
+        }
+
+        if(productName.length > 255){
+            errors.productNameMaxLength = 'You must provide a product name less than 255 characters.'
+        }
+
+        if(Object.keys(errors) === 0){
+            return false;
+        }
+
+        return errors;
+
     };
 
     static verifyProductDesc(productDesc){
+
         const errors = {};
+
+        if(productDesc.length === ''){
+            errors.productDescLength = 'You must provide a description '
+            return errors
+        }
+
+        if(productDesc.length < 10){
+            errors.productDescLength = 'You must provide a description more than 10 characters '
+            return errors
+        }
+
+        return false;
     };
 
     static verifyOwner(productOwner){
         const errors = {};
         //check if user Id exist
-    };
-
-    static verifyImage(productImages){
-        const errors = {};
-        //check if image upload is correct file
     };
 
     static verifyBidPrice(productPrice){

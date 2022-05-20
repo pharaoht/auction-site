@@ -1,3 +1,7 @@
+const jwt = require('jsonwebtoken');
+const Util = require('../util/util');
+
+
 exports.isAuthenticated = (req, res, next) => {
     
     if(!req.session.isLoggedIn){
@@ -18,8 +22,29 @@ exports.isAdmin = (req, res, next) => {
     next();
 };
 
-exports.csrfMiddleWare = (req, res, next) => {
-    res.locals.isAuthenticated = req.session.isLoggedIn;
-    res.locals.csrfToken = req.csrfToken();
+exports.tokenMiddleWare = (req, res, next) => {
+
+    const token = req.get('Authorization').split(' ')[1];
+    let decodedToken;
+
+    try{
+
+        decodedToken = jwt.verify(token, 'superlongreallylongstringofstrings');
+    }
+    catch (err) {
+
+        return Util.errorCatcher('You must be authenticated to access this.')
+    }
+
+    req.userId = decodedToken.userId;
+
+    next();
+};
+
+exports.corsMiddleWare = (req, res, next) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST', 'PUT', 'PATCH', 'DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'Authorization');
     next();
 };

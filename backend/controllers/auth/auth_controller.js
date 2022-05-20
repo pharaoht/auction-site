@@ -1,6 +1,7 @@
 const User = require("../../models/accounts");
+const Util = require("../../util/util");
 const Bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 
 exports.accountLogin = (req, res, next) => {
     
@@ -9,47 +10,45 @@ exports.accountLogin = (req, res, next) => {
 
     User.findUserByEmail(email)
     .then(([user, metaData]) => {
+        const userInfo = user[0];
 
         if(!user){
-            res.status(400);
-            return res.json({result:'Inncorrect Email or Password, Please try again.'})
+            return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
         };
 
-        Bcrypt.compare(password, user.password)
+        Bcrypt.compare(password, userInfo.password)
         .then(doMatch => {
             
             if(doMatch){
-                req.session.isLoggedIn = true;
-                req.session.user = user;
-                return req.session.save(err => {
-                    console.log(err);
-                    res.status(200);
-                    res.json({results:user})
-                })
+                const token = jwt.sign({
+                    id: userInfo.id,
+                    first_name: userInfo.first_name,
+                    last_name: userInfo.last_name,
+                    email: userInfo.email,
+                    isActive: userInfo.isActive,
+                    isAdmin:userInfo.isAdmin
+                }, 'superlongreallylongstringofstrings', {expiresIn: '1h'})
+
+                res.status(200).json({token:token, userId: userInfo.id, })
             };
 
-            return res.json({results:'The Username or Password does not match our records. Please try again.'})
+            return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
         })
         .catch(err => {
             console.log(err);
-            res.status(400);
-            return res.json({result:'Inncorrect Email or Password, Please try again.'})
+            return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
         });
 
     })
     .catch(err => {
         console.log(err);
-        res.status(400);
-        res.json({result:'Inncorrect Email or Password, Please try again.'})
+        return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
     })
 
 };
 
 exports.accountLogOut = (req, res, next) => {
-    req.session.destory(err => {
-        console.log(err);
-        res.json({result:'Account successfully signed out.'})
-    })
+
 };
 
 exports.accountPasswordReset = (req, res, next) => {

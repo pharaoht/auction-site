@@ -1,4 +1,5 @@
 const Product = require('../../models/product');
+const Util = require('../../util/util');
 const ProductValidator = require('../../validator/productValidator');
 
 exports.getProductsSoonToStart = (req, res, next) => {
@@ -21,10 +22,10 @@ exports.createNewProduct = (req,res,next) => {
     const productData = {
         ownerId: req.body.ownerId,
         desc: req.body.desc,
-        photo1: req.body.photo1,
-        photo2: req.body.photo2,
-        photo3:req.body.photo3,
-        bid_price: req.body.bid_price,
+        photo1: req.file,
+        photo2: null,
+        photo3: null,
+        bid_price: 0.00,
         upload_date: req.body.upload_date,
         product_name: req.body.product_name,
         auction_start:req.body.auction_start,
@@ -53,7 +54,19 @@ exports.createNewProduct = (req,res,next) => {
 };
 
 exports.getAllProductsByUserId = (req, res, next) => {
-    //get all products from a user
+
+    const userId = req.body.id;
+
+    Product.fetchAllProductsByUserId(userId)
+    .then(([rows, metaData]) => {
+        res.status(200);
+        res.json({results: rows});
+    })
+    .catch(err => {
+        console.log(err);
+        return Util.errorCatcher('This user can not be found. Please try again.', 401, err);
+    });
+
 };
 
 exports.incrementBid = (req, res, next) => {
@@ -62,8 +75,46 @@ exports.incrementBid = (req, res, next) => {
 
 exports.deleteProduct = (req, res, next) => {
 
+    const productId = req.body.id;
+
+    Product.deleteProductById(productId)
+    .then(response => {
+        res.status(200);
+        res.json({result:'Your product has been successfully deleted!'})
+    })
+    .catch(err => {
+        return Util.errorCatcher('This product no longer exists, that means it has already been deleted.', 401, err)
+    });
 };
 
-exports.editProduct = () => {
+exports.editProduct = (req, res, next) => {
+
+    const productData = {
+        product_name: req.body.product_name,
+        desc: req.body.desc,
+        owner: req.body.userId,
+        photo1: req.body.photo1,
+        photo2: req.body.photo2,
+        photo3: req.body.photo3, 
+
+    }
+
+    Product.findProductById(productId)
+    .then(([rows, metaData]) => {
+        console.log(rows);
+
+        if(rows[0].ownerId != userId){
+            return Util.errorCatcher('You must be the owner of this product to Update it.', 401, err);
+        };
+
+        Product.updateProductById(productId)
+        .then(re)
+        .catch()
+
+        //check if userid is the same as the product
+    })
+    .catch(err => {
+        return Util.errorCatcher('This product no longer exists, that means it has already been deleted.', 401, err)
+    });
 
 };
