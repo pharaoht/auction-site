@@ -22,7 +22,7 @@ exports.createNewProduct = (req,res,next) => {
     const productData = {
         ownerId: req.body.ownerId,
         desc: req.body.desc,
-        photo1: req.file,
+        photo1: req.file.path,
         photo2: null,
         photo3: null,
         bid_price: 0.00,
