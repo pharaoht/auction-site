@@ -1,3 +1,5 @@
+const User = require("../models/accounts");
+
 module.exports = class ProductValidator{
 
     static verifyProductName(productName)
@@ -31,7 +33,7 @@ module.exports = class ProductValidator{
         const errors = {};
 
         if(productDesc.length === ''){
-            errors.productDescLength = 'You must provide a description '
+            errors.productDescLength = 'You must provide a description.'
             return errors
         }
 
@@ -43,23 +45,37 @@ module.exports = class ProductValidator{
         return false;
     };
 
-    static verifyOwner(productOwner){
+    static async verifyOwner(productOwner){
         const errors = {};
         //check if user Id exist
+        const userInfo = await User.findUserById();
+        console.log(userInfo);
+
     };
 
-    static verifyBidPrice(productPrice){
+    static verifyAuctionStartDate(productDate){
         const errors = {};
-    };
 
-    static verifyAuctionDate(productDate){
-        const errors = {};
+        //check check type
+        //check date format
+        //check in future
     };
 
     static verifyProduct(productData){
+
         const errors = {};
 
         const productNameValidator = this.verifyProductName(productData.product_name);
         const productDescValidator = this.verifyProductDesc(productData.product_desc);
+        const productOwnValidator = this.verifyOwner(productData.ownerId);
+        const productStartDateValidator = this.verifyAuctionStartDate(productData.auction_start);
+        console.log(productOwnValidator);
+
+        Object.keys(productNameValidator).length > 0 ? errors.productNameValidations = productNameValidator : null;
+        Object.keys(productDescValidator).length > 0 ? errors.productDescValidations = productDescValidator : null;
+        Object.keys(productOwnValidator).length > 0 ? errors.productOwnerValidations = productOwnValidator : null;
+        Object.keys(productStartDateValidator).length > 0 ? errors.productDateValidations = productStartDateValidator : null;
+
+        return errors;
     };
 }

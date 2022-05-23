@@ -18,15 +18,17 @@ exports.getProductsSoonToStart = (req, res, next) => {
 };
 
 exports.createNewProduct = (req,res,next) => {
+
+    const date = new Date().now();
    
     const productData = {
-        ownerId: req.body.ownerId,
-        desc: req.body.desc,
+        ownerId: '39d28b72-d479-11ec-b833-c49ded9ac9db',
+        product_desc: req.body.desc,
         photo1: req.file.path,
         photo2: null,
         photo3: null,
         bid_price: 0.00,
-        upload_date: req.body.upload_date,
+        upload_date: date,
         product_name: req.body.product_name,
         auction_start:req.body.auction_start,
         isSold:false,
@@ -66,7 +68,6 @@ exports.getAllProductsByUserId = (req, res, next) => {
         console.log(err);
         return Util.errorCatcher('This user can not be found. Please try again.', 401, err);
     });
-
 };
 
 exports.incrementBid = (req, res, next) => {
@@ -108,8 +109,12 @@ exports.editProduct = (req, res, next) => {
         };
 
         Product.updateProductById(productId)
-        .then(re)
-        .catch()
+        .then(res => {
+
+        })
+        .catch(err => {
+            throw new Error('something went wrong')
+        })
 
         //check if userid is the same as the product
     })

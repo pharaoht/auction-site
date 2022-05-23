@@ -35,5 +35,9 @@ module.exports = class User{
 
     static findUserByEmail(email){
         return db.execute('SELECT * FROM users WHERE email = ?', [email]);
-    }
+    };
+
+    static activateUser(id){
+        return db.execute('UPDATE users SET isActive = TRUE WHERE user.id = ?', [id])
+    };
 };

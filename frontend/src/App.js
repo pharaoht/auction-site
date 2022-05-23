@@ -1,23 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  const [formData, setFormData] = useState({
+    product_name: '',
+    ownerId: '',
+    desc: '',
+    photo1: '',
+    auction_start: '',
+  })
+
+  const formChangeHandler = (event) => setFormData({ ...formData, [event.target.name]: event.target.value })
+
+  const formSubmitHandler = () => {
+    const formInfo = new FormData();
+    axios.post('http://localhost:4000/products/create/new-product/')
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form>
+        <div><input name='' /></div>
+
+      </form>
     </div>
   );
 }

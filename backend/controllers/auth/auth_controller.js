@@ -10,11 +10,10 @@ exports.accountLogin = (req, res, next) => {
 
     User.findUserByEmail(email)
     .then(([user, metaData]) => {
+
         const userInfo = user[0];
 
-        if(!user){
-            return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
-        };
+        if (!user) return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
 
         Bcrypt.compare(password, userInfo.password)
         .then(doMatch => {
@@ -57,4 +56,11 @@ exports.accountPasswordReset = (req, res, next) => {
 
 exports.accountActivation = (req, res, next) => {
 
+    const userId = req.params.id;
+
+    //find user
+
+    User.activateUser(userId)
+    .then()
+    .catch()
 };
