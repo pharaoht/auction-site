@@ -46,10 +46,10 @@ module.exports = class ProductValidator{
     };
 
     static async verifyOwner(productOwner){
+
         const errors = {};
         //check if user Id exist
         const userInfo = await User.findUserById();
-        console.log(userInfo);
 
     };
 
@@ -69,12 +69,11 @@ module.exports = class ProductValidator{
         const productDescValidator = this.verifyProductDesc(productData.product_desc);
         const productOwnValidator = this.verifyOwner(productData.ownerId);
         const productStartDateValidator = this.verifyAuctionStartDate(productData.auction_start);
-        console.log(productOwnValidator);
 
         Object.keys(productNameValidator).length > 0 ? errors.productNameValidations = productNameValidator : null;
         Object.keys(productDescValidator).length > 0 ? errors.productDescValidations = productDescValidator : null;
-        Object.keys(productOwnValidator).length > 0 ? errors.productOwnerValidations = productOwnValidator : null;
-        Object.keys(productStartDateValidator).length > 0 ? errors.productDateValidations = productStartDateValidator : null;
+        // Object.keys(productOwnValidator).length > 0 ? errors.productOwnerValidations = productOwnValidator : null;
+        // Object.keys(productStartDateValidator).length > 0 ? errors.productDateValidations = productStartDateValidator : null;
 
         return errors;
     };

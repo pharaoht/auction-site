@@ -12,7 +12,7 @@ const productRoutes = require('./routes/products/product_routes');
 //custom middleware
 const authMiddleWare = require('./middleware/auth-middleware');
 
-// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(authMiddleWare.corsMiddleWare);

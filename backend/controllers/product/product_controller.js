@@ -20,30 +20,40 @@ exports.getProductsSoonToStart = (req, res, next) => {
 };
 
 exports.createNewProduct = (req,res,next) => {
-
-    const date = Date.now();
    
     const productData = {
-        ownerId: '39d28b72-d479-11ec-b833-c49ded9ac9db',
-        product_desc: req.body.desc,
+        ownerId: req.body.userId,
+        product_desc: req.body.product_desc,
         photo1: req.file.path,
         photo2: null,
         photo3: null,
-        bid_price: 0.00,
-        upload_date: date,
+        bid_price: 0,
+        upload_date: null,
         product_name: req.body.product_name,
-        auction_start:req.body.auction_start,
-        isSold:false,
+        auction_start: req.body.auction_start,
+        isSold: 0,
     };
 
-    const productValidation = ProductValidator.verifyProduct(productData);
+    // const productValidation = ProductValidator.verifyProduct(productData);
 
-    if(Object.keys(productValidation).length > 0){
-        res.status(400);
-        return res.json({errors:productValidation})
-    };
+    // if(Object.keys(productValidation).length > 0){
+    //     res.status(400);
+    //     return res.json({errors:productValidation})
+    // };
 
-    const product = new Product(null, productData.product_name, productData.ownerId, productData.photo1, productData.photo2,productData.photo3, productData.upload_date, productData.bid_price,productData.desc,productData.auction_start )
+    const product = new Product(
+        id = null, 
+        product_name = productData.product_name,
+        owner = productData.ownerId, 
+        photo1 = productData.photo1, 
+        photo2 = productData.photo2,
+        photo3 = productData.photo3, 
+        upload_date = productData.upload_date,
+        bid_price = productData.bid_price,
+        desc = productData.product_desc,
+        auction_start = productData.auction_start, 
+        isSold = productData.isSold 
+    )
 
     product.createNewProduct()
     .then(response => {
