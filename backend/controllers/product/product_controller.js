@@ -1,6 +1,8 @@
 const Product = require('../../models/product');
 const Util = require('../../util/util');
 const ProductValidator = require('../../validator/productValidator');
+const multer = require('multer')
+
 
 exports.getProductsSoonToStart = (req, res, next) => {
 
@@ -19,7 +21,7 @@ exports.getProductsSoonToStart = (req, res, next) => {
 
 exports.createNewProduct = (req,res,next) => {
 
-    const date = new Date().now();
+    const date = Date.now();
    
     const productData = {
         ownerId: '39d28b72-d479-11ec-b833-c49ded9ac9db',
@@ -32,7 +34,7 @@ exports.createNewProduct = (req,res,next) => {
         product_name: req.body.product_name,
         auction_start:req.body.auction_start,
         isSold:false,
-    }
+    };
 
     const productValidation = ProductValidator.verifyProduct(productData);
 
