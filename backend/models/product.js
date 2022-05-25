@@ -19,34 +19,28 @@ module.exports = class Product{
     };
 
     async createNewProduct(){
-        return await db.execute('INSERT INTO product (id, product_name, ownerID, photo1, photo2, photo3, upload_date, bid_price, product_desc, auction_start, isSold) VALUES (UUID(),?,?,?,?,?,?,?,?,?,?)',
-        [this.product_name, this.owner, this.photo1, this.photo2, this.photo3, this.upload_date, this.bid_price, this.desc, this.auction_start, this.isSold])
+        return await db.execute('INSERT INTO product (id, product_name, ownerID, photo1, photo2, photo3, upload_date, bid_price, product_desc, auction_start, isSold) VALUES (UUID(),?,?,?,?,?,NOW(),?,?,?,?)',
+        [this.product_name, this.owner, this.photo1, this.photo2, this.photo3, this.bid_price, this.desc, this.auction_start, this.isSold])
     };
 
-    // createNewProduct(){
-    //     console.log(this.bid_price)
-    //     return db.execute('INSERT INTO product (id, product_name, ownerID, photo1, photo2, photo3, upload_date, bid_price, product_desc, auction_start, isSold) VALUES (UUID(),?,?,?,?,?,?,?,?,?,?)'
-    //     ,[this.product_name, this.owner, this.photo1, this.photo2, this.photo3, this.upload_date, this.bid_price, this.desc,this.auction_start, ])
-    // };
-
     static findProductById(id){
-        return db.execute('SELECT * FROM products WHERE product.id = ?', [id])
+        return db.execute('SELECT * FROM product WHERE product.id = ?', [id])
     };
 
     static deleteProductById(id){
-        return db.execute('DELETE FROM products WHERE product.id = ?', [id])
+        return db.execute('DELETE FROM product WHERE product.id = ?', [id])
     };
 
-    static incrementBidPrce(id){
-        //insert statement
+    static incrementBidPrce(id, amount){
+        return db.execute('UPDATE product SET bid_price = ? WHERE id = ?', [amount, id])
     };
 
     static fetchAllProducts(){
-        return db.execute('SELECT * FROM products')
+        return db.execute('SELECT * FROM product')
     };
 
-    static fetchAllProductsByUserId(id){
-
+    static fetchAllProductsByUserId(userId){
+        return db.execute('SELECT * FROM product WHERE ownerID = ?', [userId])
     };
 
     static fetchProductsByDate(){
@@ -54,6 +48,6 @@ module.exports = class Product{
     };
 
     static updateProductById(id){
-        return db.execute('SELECT * FROM products WHERE product.id', [id])
+        return db.execute('SELECT * FROM product WHERE product.id', [id])
     };
 }

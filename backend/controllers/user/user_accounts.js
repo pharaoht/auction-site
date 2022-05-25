@@ -1,6 +1,7 @@
 const User = require('../../models/accounts');
 const UserValidator = require('../../validator/accountValidator');
 const Bcrypt = require('bcrypt');
+const EmailSender = require('../../util/emails/email_sender');
 
 //controller for all regular user access
 
@@ -29,7 +30,18 @@ exports.createNewUser = (req, res, next) => {
 
         user.createNewUser()
         .then(response => {
+
             //send email
+            const recipientObj = {
+
+                email: userData.email,
+                first_name: userData.first_name,
+                last_name: userData.last_name,
+                sender: 'email@email.com',
+                activationLink: `http://localhost:4000/auth/activate/${userId}`
+            };
+
+            // EmailSender.activationEmail(recipientObj)
 
             res.status(200);
             res.json({result:'Your account has been created, Please check your email to activate your account.'})

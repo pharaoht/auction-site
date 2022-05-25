@@ -13,7 +13,11 @@ exports.accountLogin = (req, res, next) => {
 
         const userInfo = user[0];
 
-        if (!user) return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
+        if (!user){
+            const error = new Error('The information we have recieved does not match our records. Please try again.');
+            error.status = 401;
+            throw error;
+        };
 
         Bcrypt.compare(password, userInfo.password)
         .then(doMatch => {
@@ -31,19 +35,22 @@ exports.accountLogin = (req, res, next) => {
                 res.status(200).json({token:token, userId: userInfo.id, })
             };
 
-            return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
+            const error = new Error()
+            error.message = 'The information we have recieved does not match our records. Please try again.';
+            error.status = 401;
+            throw error;
         })
-        .catch(err => {
-            console.log(err);
-            return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
+        .catch(error => {
+            error.message = 'The information we have recieved does not match our records. Please try again.';
+            error.status = 401;
+            throw error;
         });
-
     })
-    .catch(err => {
-        console.log(err);
-        return Util.errorCatcher('The information we have recieved does not match our records. Please try again.', 401, null);
+    .catch(error => {
+        error.message = 'The information we have recieved does not match our records. Please try again.';
+        error.status = 401;
+        throw error;
     })
-
 };
 
 exports.accountLogOut = (req, res, next) => {

@@ -21,4 +21,11 @@ app.use('/products', productRoutes);
 app.use('/user-accounts', userAccountRoutes);
 app.use('/admin-accounts', adminAccountRoutes);
 
+app.use((error, req, res, next) => {
+  console.log(error);
+  const status = error.status || 500;
+  const message = error.message || 'Something went wrong.';
+  res.status(status).json({ message: message });
+});
+
 app.listen(4000);

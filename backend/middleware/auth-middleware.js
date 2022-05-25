@@ -1,16 +1,6 @@
 const jwt = require('jsonwebtoken');
+const EmailSender = require('../util/emails/email_sender');
 const Util = require('../util/util');
-
-
-exports.isAuthenticated = (req, res, next) => {
-    
-    if(!req.session.isLoggedIn){
-        res.status(400);
-        return res.json({result:'You must be logged in to complete this action'})
-    };
-
-    next();
-};
 
 exports.isAdmin = (req, res, next) => {
     //maybe session cookies will work
@@ -22,7 +12,16 @@ exports.isAdmin = (req, res, next) => {
     next();
 };
 
-exports.tokenMiddleWare = (req, res, next) => {
+exports.isAuthenticated = (req, res, next) => {
+
+    const authHeader = req.get('Authorization');
+
+    if(!authHeader){
+
+        const error = new Error('Not Authenticated');
+        error.status = 401;
+        throw error;
+    };
 
     const token = req.get('Authorization').split(' ')[1];
     let decodedToken;
@@ -31,9 +30,18 @@ exports.tokenMiddleWare = (req, res, next) => {
 
         decodedToken = jwt.verify(token, 'superlongreallylongstringofstrings');
     }
-    catch (err) {
+    catch (error) {
 
-        return Util.errorCatcher('You must be authenticated to access this.')
+        error.status = 500;
+        error.message = 'Not Authenticated.'
+        throw error;
+    }
+
+    if(!decodedToken){
+
+        const error = new Error('Not Authenticated.');
+        error.status = 500;
+        throw error;
     }
 
     req.userId = decodedToken.userId;

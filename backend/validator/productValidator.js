@@ -37,11 +37,6 @@ module.exports = class ProductValidator{
             return errors
         }
 
-        if(productDesc.length < 10){
-            errors.productDescLength = 'You must provide a description more than 10 characters '
-            return errors
-        }
-
         return false;
     };
 
@@ -53,12 +48,19 @@ module.exports = class ProductValidator{
 
     };
 
-    static verifyAuctionStartDate(productDate){
+    static verifyAuctionStartDate(startDate){
         const errors = {};
 
-        //check check type
-        //check date format
-        //check in future
+        const now = Date.now();
+
+        if(startDate <= now){
+
+            errors.dateCheck = 'Your start date can not be in the past. Only Future.'
+
+            return errors;
+        };
+
+        return false;
     };
 
     static verifyProduct(productData){
@@ -72,8 +74,8 @@ module.exports = class ProductValidator{
 
         Object.keys(productNameValidator).length > 0 ? errors.productNameValidations = productNameValidator : null;
         Object.keys(productDescValidator).length > 0 ? errors.productDescValidations = productDescValidator : null;
-        // Object.keys(productOwnValidator).length > 0 ? errors.productOwnerValidations = productOwnValidator : null;
-        // Object.keys(productStartDateValidator).length > 0 ? errors.productDateValidations = productStartDateValidator : null;
+        Object.keys(productOwnValidator).length > 0 ? errors.productOwnerValidations = productOwnValidator : null;
+        Object.keys(productStartDateValidator).length > 0 ? errors.productDateValidations = productStartDateValidator : null;
 
         return errors;
     };

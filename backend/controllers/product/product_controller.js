@@ -1,7 +1,6 @@
 const Product = require('../../models/product');
 const Util = require('../../util/util');
 const ProductValidator = require('../../validator/productValidator');
-const multer = require('multer')
 
 
 exports.getProductsSoonToStart = (req, res, next) => {
@@ -13,16 +12,17 @@ exports.getProductsSoonToStart = (req, res, next) => {
         res.status(200);
         res.json({result:rows})
     })
-    .catch(err => {
-        res.status(400);
-        res.json({result:err});
+    .catch(error => {
+        error.message = 'Something went wrong.';
+        error.status = 400;
+        throw error;
     });
 };
 
 exports.createNewProduct = (req,res,next) => {
    
-    const productData = {
-        ownerId: req.body.userId,
+    const productData = { 
+        ownerId: req.body.userID,
         product_desc: req.body.product_desc,
         photo1: req.file.path,
         photo2: null,
@@ -31,7 +31,7 @@ exports.createNewProduct = (req,res,next) => {
         upload_date: null,
         product_name: req.body.product_name,
         auction_start: req.body.auction_start,
-        isSold: 0,
+        isSold: 0
     };
 
     // const productValidation = ProductValidator.verifyProduct(productData);
@@ -60,30 +60,64 @@ exports.createNewProduct = (req,res,next) => {
         res.status(200);
         res.json({result:'Congrats, your product has been added to your account.'})
     })
-    .catch(err => {
-        console.log(err);
-        res.status(400);
-        res.json({errors:err});
+    .catch(error => {
+        error.message = 'Something went wrong.';
+        error.status = 400;
+        throw error;
     })
 };
 
 exports.getAllProductsByUserId = (req, res, next) => {
 
-    const userId = req.body.id;
+    const userId = req.params.userid;
 
     Product.fetchAllProductsByUserId(userId)
     .then(([rows, metaData]) => {
         res.status(200);
         res.json({results: rows});
     })
-    .catch(err => {
-        console.log(err);
-        return Util.errorCatcher('This user can not be found. Please try again.', 401, err);
+    .catch(error => {
+        error.message = 'Something went wrong, this user does not exist.';
+        error.status = 400;
+        throw error;
     });
 };
 
-exports.incrementBid = (req, res, next) => {
+exports.incrementBid = async (req, res, next) => {
 
+    const productId = req.params.productid;
+    const bidAmount = Number(req.body.bid);
+    let currentPrice;
+
+    if(bidAmount > 100){
+        return res.json({result:'Your bid amount can not be larger than $100.'})
+    } 
+
+    try {
+
+        productInfo = await Product.findProductById(productId);
+        currentPrice = productInfo[0][0].bid_price;
+
+    } catch (error) {
+        
+        error.message = 'Something went wrong, we could not find this product.';
+        error.status = 400;
+        throw error;
+    }
+
+    const sum = Number(currentPrice) + Number(bidAmount);
+
+    Product.incrementBidPrce(productId, sum)
+    .then(response => {
+        res.status(200)
+        res.json({result:'Your bid has been placed.'})
+    })
+    .catch(error => {
+
+        error.message = 'Something went wrong your bid wasnt placed.';
+        error.status = 400;
+        throw error;
+    });
 };
 
 exports.deleteProduct = (req, res, next) => {
@@ -95,8 +129,10 @@ exports.deleteProduct = (req, res, next) => {
         res.status(200);
         res.json({result:'Your product has been successfully deleted!'})
     })
-    .catch(err => {
-        return Util.errorCatcher('This product no longer exists, that means it has already been deleted.', 401, err)
+    .catch(error => {
+        error.message = 'This product no longer exists, that means it has already been deleted.';
+        error.status = 400;
+        throw error;
     });
 };
 
@@ -117,7 +153,10 @@ exports.editProduct = (req, res, next) => {
         console.log(rows);
 
         if(rows[0].ownerId != userId){
-            return Util.errorCatcher('You must be the owner of this product to Update it.', 401, err);
+            let error = new Error()
+            error.message = 'You must be the owner of this product to Update it.';
+            error.status = 400;
+            
         };
 
         Product.updateProductById(productId)
