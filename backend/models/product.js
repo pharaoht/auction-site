@@ -50,4 +50,8 @@ module.exports = class Product{
     static updateProductById(id){
         return db.execute('SELECT * FROM product WHERE product.id', [id])
     };
+
+    static productIsSold(id){
+        return db.execute('UPDATE product SET isSold = 1 WHERE id = ?', [id])
+    };
 }

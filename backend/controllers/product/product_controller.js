@@ -34,12 +34,12 @@ exports.createNewProduct = (req,res,next) => {
         isSold: 0
     };
 
-    // const productValidation = ProductValidator.verifyProduct(productData);
+    const productValidation = ProductValidator.verifyProduct(productData);
 
-    // if(Object.keys(productValidation).length > 0){
-    //     res.status(400);
-    //     return res.json({errors:productValidation})
-    // };
+    if(Object.keys(productValidation).length > 0){
+        res.status(400);
+        return res.json({errors:productValidation})
+    };
 
     const product = new Product(
         id = null, 
@@ -150,27 +150,50 @@ exports.editProduct = (req, res, next) => {
 
     Product.findProductById(productId)
     .then(([rows, metaData]) => {
-        console.log(rows);
 
         if(rows[0].ownerId != userId){
-            let error = new Error()
-            error.message = 'You must be the owner of this product to Update it.';
+            let error = new Error('You must be the owner of this product to Update it.')
             error.status = 400;
-            
+            throw error;
         };
 
-        Product.updateProductById(productId)
+        Product.updateProductById(productId, productData)
         .then(res => {
 
         })
-        .catch(err => {
-            throw new Error('something went wrong')
+        .catch(error => {
+            error.message = 'something went wrong';
+            error.status = 404;
+            throw error;
         })
-
-        //check if userid is the same as the product
     })
-    .catch(err => {
-        return Util.errorCatcher('This product no longer exists, that means it has already been deleted.', 401, err)
+    .catch(error => {
+        error.message = 'This product no longer exists, that means it has already been deleted.'
+        error.status = 401;
+        throw error;
     });
 
 };
+
+exports.productSold = async (req, res, next) => {
+
+    const productId = req.body.product_id;
+    const userId = req.body.user_id;
+
+    try {
+        //find product
+        const product = await Product.findProductById(productId);
+    }
+    catch(error){
+        
+        error.message = 'This product could not be found.';
+        error.status = 404;
+        throw error;
+    }
+    //check if user is the same
+
+    //run sql query
+
+    //return response
+
+}

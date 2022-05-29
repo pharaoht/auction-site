@@ -6,15 +6,14 @@ const multerMiddleWare = require('../../middleware/file-middleware');
 
 router.get('/starting-soon/', productController.getProductsSoonToStart);
 
-router.get('/product-by/:userid/', productController.getAllProductsByUserId);
+router.get('/find-products/:userid/', productController.getAllProductsByUserId);
 
 router.post('/create-new-product/', authMiddleWare.isAuthenticated, multerMiddleWare.sendFile, productController.createNewProduct);
 
-router.delete('/delete/:productid/', productController.deleteProduct);
+router.delete('/delete/:productid/', authMiddleWare.isAuthenticated, productController.deleteProduct);
 
-router.put('/edit/:productid/', productController.editProduct);
+router.put('/edit/:productid/', authMiddleWare.isAuthenticated, productController.editProduct);
 
-//check if user is authenticated
 router.put('/increment-bid/:productid/', authMiddleWare.isAuthenticated, productController.incrementBid);
 
 module.exports = router;

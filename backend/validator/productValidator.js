@@ -43,8 +43,21 @@ module.exports = class ProductValidator{
     static async verifyOwner(productOwner){
 
         const errors = {};
-        //check if user Id exist
-        const userInfo = await User.findUserById();
+
+        try {
+
+           //check if user Id exist
+            const userInfo = await User.findUserById(productOwner);  
+
+        } catch (error) {
+            errors.ownerValidation = 'The user doesnt exist, or you arent the owner of this product.'
+        }
+
+        if(Object.keys(errors) === 0){
+            return false;
+        };
+
+        return errors;
 
     };
 

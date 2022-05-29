@@ -3,11 +3,11 @@ const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 module.exports = class EmailSender{
 
-    // static transporter = nodemailer.createTestAccount(sendgridTransport({
-    //     auth:{
-    //         api_key:'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'
-    //     }
-    // }))
+    static transporter = nodemailer.createTestAccount(sendgridTransport({
+        auth:{
+            api_key:'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'
+        }
+    }))
 
     static activationEmail(recipientObj){
 
