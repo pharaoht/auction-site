@@ -1,7 +1,7 @@
 const User = require('../../models/accounts');
 const UserValidator = require('../../validator/accountValidator');
 const Bcrypt = require('bcrypt');
-const EmailSender = require('../../util/emails/email_sender');
+// const EmailSender = require('../../util/emails/email_sender');
 
 //controller for all regular user access
 

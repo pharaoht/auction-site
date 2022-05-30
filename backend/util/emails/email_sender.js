@@ -2,14 +2,13 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 
-const apiKey = process.env.EMAIL_KEY;
-const hostEmail = process.env.HOST_EMAIL;
+const EMAILKEY = process.env.EMAILKEY;
 
 module.exports = class EmailSender{
 
     static transporter = nodemailer.createTestAccount(sendgridTransport({
         auth:{
-            api_key:apiKey,
+            api_key:EMAILKEY,
         }
     }))
 
@@ -19,7 +18,7 @@ module.exports = class EmailSender{
 
         return this.transporter.sendMail({
             to: email,
-            from: hostEmail,
+            from: sender,
             subject: subject,
             html: html
         })

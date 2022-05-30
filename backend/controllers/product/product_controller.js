@@ -159,10 +159,10 @@ exports.editProduct = (req, res, next) => {
 
         Product.updateProductById(productId, productData)
         .then(res => {
-
+            //finish
         })
         .catch(error => {
-            error.message = 'something went wrong';
+            error.message = 'Something went wrong.';
             error.status = 404;
             throw error;
         })

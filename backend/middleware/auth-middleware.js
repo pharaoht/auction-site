@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken');
-const EmailSender = require('../util/emails/email_sender');
-const Util = require('../util/util');
 
 exports.isAdmin = (req, res, next) => {
     //maybe session cookies will work
