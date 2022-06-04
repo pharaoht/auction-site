@@ -1,7 +1,5 @@
 const Product = require('../../models/product');
-const Util = require('../../util/util');
 const ProductValidator = require('../../validator/productValidator');
-
 
 exports.getProductsSoonToStart = (req, res, next) => {
 
@@ -19,8 +17,8 @@ exports.getProductsSoonToStart = (req, res, next) => {
     });
 };
 
-exports.createNewProduct = (req,res,next) => {
-   
+exports.createNewProduct = (req, res, next) => {
+
     const productData = { 
         ownerId: req.body.userID,
         product_desc: req.body.product_desc,
@@ -152,7 +150,8 @@ exports.editProduct = (req, res, next) => {
     .then(([rows, metaData]) => {
 
         if(rows[0].ownerId != userId){
-            let error = new Error('You must be the owner of this product to Update it.')
+            
+            let error = new Error('You must be the owner of this product to Update it.');
             error.status = 400;
             throw error;
         };
@@ -165,10 +164,10 @@ exports.editProduct = (req, res, next) => {
             error.message = 'Something went wrong.';
             error.status = 404;
             throw error;
-        })
+        });
     })
     .catch(error => {
-        error.message = 'This product no longer exists, that means it has already been deleted.'
+        error.message = 'This product no longer exists, that means it has already been deleted.';
         error.status = 401;
         throw error;
     });
@@ -196,4 +195,4 @@ exports.productSold = async (req, res, next) => {
 
     //return response
 
-}
+};
