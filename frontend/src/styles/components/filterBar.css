@@ -1,0 +1,26 @@
+.filterbar-container{
+    background-color: #fff;
+    margin-right: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+}
+
+.filterbar-container ul{
+    display: flex;
+    flex-direction: column;
+    margin:0;
+    list-style-type: none;
+    padding: 0;
+}
+
+.filterbar-container ul li{
+    display: flex;
+    justify-content: center;
+    height: 75px;
+    align-items: center;
+}
+
+.filterbar-container ul li:hover{
+    background-color: #9051ff;
+    color: #fff;
+    cursor: pointer;
+}

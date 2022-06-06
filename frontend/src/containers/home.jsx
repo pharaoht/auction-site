@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/containers/home.css';
 import SearchBar from '../components/searchBar';
 import FilterBar from '../components/filterBar';
 import Auctions from '../components/auctions';
 
 const Home = () => {
+
+    const [listings, setListings] = useState([]);
 
     return (
         <div className='home-component-parent'>

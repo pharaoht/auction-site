@@ -1,9 +1,10 @@
 import React from 'react';
+import '../styles/components/auctions.css';
 
 const Auctions = () => {
 
     return (
-        <div>
+        <div className='auctions-parent-container'>
             Main content
         </div>
     )

@@ -2,14 +2,18 @@
     padding: 15px;
 }
 
+.home-search-content{
+    margin-bottom: 15px;
+}
+
 .home-main-content{
     display: flex;
 }
 
 .home-filterbar-content{
-    width: 15%;
+    width: 20%;
 }
 
 .home-auctions-content{
-    width: 85%;
+    width: 80%;
 }

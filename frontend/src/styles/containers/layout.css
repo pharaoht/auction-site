@@ -5,11 +5,12 @@
 }
 
 .layout-child-one{
-    width: 60px;
+    
 }
 
 .layout-child-two{
-    width: calc(100vw - 60px);
-    padding-right: 60px;
+    width: calc(100vw);
+    padding: 0px 60px;
     height: calc(100vh - 60px);
+    background-color: #F8f8f8;
 }

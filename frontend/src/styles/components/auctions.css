@@ -1,0 +1,6 @@
+.auctions-parent-container{
+    height: 80vh;
+    background-color: #fff;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+    padding: 15px;
+}
