@@ -1,0 +1,15 @@
+.home-component-parent{
+    padding: 15px;
+}
+
+.home-main-content{
+    display: flex;
+}
+
+.home-filterbar-content{
+    width: 15%;
+}
+
+.home-auctions-content{
+    width: 85%;
+}
