@@ -4,8 +4,13 @@ const ProductValidator = require('../../validator/productValidator');
 exports.getProductsSoonToStart = (req, res, next) => {
 
     const now = Date.now();
+    const day = now.getDay();
+    const month = now.getMonth();
+    const year = now.getFullYear();
+    const startDate = `${year}-${month}-${day} 00:00:00`;
+    const endDate = `${year}-${month}-${day} 23:59:59`;
     
-    Product.fetchProductsByDate(now)
+    Product.fetchProductsByDate(startDate, endDate)
     .then(([rows, metaData]) => {
         res.status(200);
         res.json({result:rows})
@@ -15,6 +20,24 @@ exports.getProductsSoonToStart = (req, res, next) => {
         error.status = 400;
         throw error;
     });
+};
+
+exports.getAllProducts = (req, res, next) => {
+    console.log('**********************')
+    Product.fetchAllProducts()
+    .then(([rows, metaData]) => {
+        const data = rows.map((itm, idx) => {
+            itm.password = '-';
+            return itm;
+        })
+        res.status(200);
+        res.json({result:data})
+    })
+    .catch(error => {
+        error.message = 'Something went wrong';
+        error.status = 400;
+        throw error;
+    })
 };
 
 exports.createNewProduct = (req, res, next) => {
@@ -29,6 +52,7 @@ exports.createNewProduct = (req, res, next) => {
         upload_date: null,
         product_name: req.body.product_name,
         auction_start: req.body.auction_start,
+        total_bids: 0,
         isSold: 0
     };
 
@@ -50,7 +74,8 @@ exports.createNewProduct = (req, res, next) => {
         bid_price = productData.bid_price,
         desc = productData.product_desc,
         auction_start = productData.auction_start, 
-        isSold = productData.isSold 
+        isSold = productData.isSold,
+        total_bids = productData.total_bids
     )
 
     product.createNewProduct()
@@ -85,7 +110,7 @@ exports.incrementBid = async (req, res, next) => {
 
     const productId = req.params.productid;
     const bidAmount = Number(req.body.bid);
-    let currentPrice;
+    let currentPrice, bids;
 
     if(bidAmount > 100){
         return res.json({result:'Your bid amount can not be larger than $100.'})
@@ -95,6 +120,7 @@ exports.incrementBid = async (req, res, next) => {
 
         productInfo = await Product.findProductById(productId);
         currentPrice = productInfo[0][0].bid_price;
+        bids = productInfo[0][0].total_bids;
 
     } catch (error) {
         
@@ -104,8 +130,9 @@ exports.incrementBid = async (req, res, next) => {
     }
 
     const sum = Number(currentPrice) + Number(bidAmount);
+    const totalBids = Number(bids) + 1;
 
-    Product.incrementBidPrce(productId, sum)
+    Product.incrementBidPrce(productId, sum, totalBids)
     .then(response => {
         res.status(200)
         res.json({result:'Your bid has been placed.'})

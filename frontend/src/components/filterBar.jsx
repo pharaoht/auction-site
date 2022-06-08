@@ -1,26 +1,24 @@
 import React from 'react';
 import '../styles/components/filterBar.css';
 
-const FilterBar = () => {
+const FilterBar = ({ links }) => {
+
+    const renderList = () => {
+        return (
+            links.map((itm, idx) => {
+                return (
+                    <li>
+                        <p>{itm.name}</p>
+                    </li>
+                )
+            })
+        )
+    }
 
     return (
         <div className='filterbar-container'>
             <ul>
-                <li>
-                    <p>Most Watched</p>
-                </li>
-                <li>
-                    <p>Starting Soon</p>
-                </li>
-                <li>
-                    <p>Starting Now</p>
-                </li>
-                <li>
-                    <p>Just Added</p>
-                </li>
-                <li>
-                    <p>Sold</p>
-                </li>
+                {renderList()}
             </ul>
         </div>
     )

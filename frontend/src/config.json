@@ -1,0 +1,30 @@
+{
+    "homeLinks":[
+        {
+            "url":"",
+            "name":"Most Watched"
+        },
+        {
+            "url":"",
+            "name":"Starting Soon"
+        },
+        {
+            "url":"",
+            "name":"Starting Now"
+        },
+        {
+            "url":"",
+            "name":"Just Added"
+        },
+        {
+            "url":"",
+            "name":"Sold"
+        }
+    ],
+
+    "productLinks":[
+        {
+            "url":""
+        }
+    ]
+}

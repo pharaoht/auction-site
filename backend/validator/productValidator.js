@@ -47,7 +47,7 @@ module.exports = class ProductValidator{
         try {
 
            //check if user Id exist
-            const userInfo = await User.findUserById(productOwner);  
+            const userInfo = await User.findUserById(productOwner);
 
         } catch (error) {
             errors.ownerValidation = 'The user doesnt exist, or you arent the owner of this product.'
