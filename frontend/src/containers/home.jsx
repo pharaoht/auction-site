@@ -16,9 +16,7 @@ const Home = () => {
 
     const obj = {
         method: 'GET',
-        headers: {
-            'content-type': 'application/json',
-        },
+        headers: { 'content-type': 'application/json' },
         url: 'http://localhost:4000/products/get-all-products/',
     };
 
@@ -39,7 +37,7 @@ const Home = () => {
                     <FilterBar links={filterBarLinks} />
                 </div>
                 <div className='home-auctions-content'>
-                    <Auctions listings={listings} />
+                    <Auctions listings={listings} loading={isLoading} />
                 </div>
             </div>
         </div>

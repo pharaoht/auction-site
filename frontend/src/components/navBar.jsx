@@ -40,7 +40,7 @@ const NavBar = () => {
 
     return (
         <header id='header'>
-            <Link className='logo'>Auction Bar</Link>
+            <Link className='logo' to='/'>Auction Bar</Link>
             <div id='toggle' className={`${cssClass}`} onClick={toggleHandler}></div>
             <div id='navbar' className={`${cssClass}`}>
                 <ul>

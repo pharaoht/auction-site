@@ -1,7 +1,7 @@
 .filterbar-container{
     background-color: #fff;
-    margin-right: 15px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+    margin-bottom: 15px;
 }
 
 .filterbar-container ul{

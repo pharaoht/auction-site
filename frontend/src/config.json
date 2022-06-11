@@ -22,9 +22,22 @@
         }
     ],
 
-    "productLinks":[
+    "yourListingsLinks":[
         {
-            "url":""
+            "url":"",
+            "name":"Active"
+        },
+        {
+            "url":"",
+            "name":"Sold"
+        },
+        {
+            "url":"",
+            "name":"All"
+        },
+        {
+            "url":"",
+            "name":"Awaiting"
         }
     ]
 }

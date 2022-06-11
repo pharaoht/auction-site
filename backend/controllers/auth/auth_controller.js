@@ -29,6 +29,7 @@ exports.accountLogin = (req, res, next) => {
                     last_name: userInfo.last_name,
                     email: userInfo.email,
                     isActive: userInfo.isActive,
+                    user_name:userInfo.user_name,
                     isAdmin:userInfo.isAdmin
                 }, 'superlongreallylongstringofstrings', {expiresIn: '1h'})
 

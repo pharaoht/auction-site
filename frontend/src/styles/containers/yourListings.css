@@ -1,0 +1,20 @@
+.your-listings-parent-container{
+    padding: 15px;
+}
+
+.your-listigs-holder{
+    display: flex;
+}
+
+.your-listings-search{
+    margin-bottom: 15px;
+}
+
+.your-listings-filter-bar{
+    width: 20%;
+    padding-right: 15px;
+}
+
+.your-listings-auctions{
+    width: 80%;
+}
