@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 //routes
@@ -14,6 +15,7 @@ const authMiddleWare = require('./middleware/auth-middleware');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors())
 app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(authMiddleWare.corsMiddleWare);
 app.use('/auth', authRoutes);

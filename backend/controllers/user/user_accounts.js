@@ -8,6 +8,7 @@ const Bcrypt = require('bcrypt');
 exports.createNewUser = (req, res, next) => {
 
     const userData = {
+        user_name: req.body.user_name,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
@@ -15,6 +16,8 @@ exports.createNewUser = (req, res, next) => {
         isActive:false,
         isAdmin: false,
     };
+
+    console.log(req.body)
 
     const verifiedUserData = UserValidator.verifyUserAccount(userData);
 
@@ -26,7 +29,7 @@ exports.createNewUser = (req, res, next) => {
     Bcrypt.hash(userData.password, 12)
     .then(hashedPassword => {
 
-        const user = new User(null, userData.first_name, userData.last_name, userData.email, hashedPassword, userData.isActive, userData.isAdmin);
+        const user = new User(null, userData.first_name, userData.last_name, userData.email, hashedPassword, userData.isActive, userData.isAdmin, userData.user_name);
 
         user.createNewUser()
         .then(response => {
@@ -38,7 +41,7 @@ exports.createNewUser = (req, res, next) => {
                 first_name: userData.first_name,
                 last_name: userData.last_name,
                 sender: 'email@email.com',
-                activationLink: `http://localhost:4000/auth/activate/${userId}`
+                activationLink: `http://localhost:4000/auth/activate/`
             };
 
             // EmailSender.activationEmail(recipientObj)

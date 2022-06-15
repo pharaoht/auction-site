@@ -3,6 +3,7 @@ module.exports = class UserValidator {
     static verifyFirstName(firstName){
 
         const errors = {};
+        console.log(firstName)
 
         if(firstName === ''){
             errors.empty = 'You must provide a First Name in order to create an account.'
@@ -68,6 +69,32 @@ module.exports = class UserValidator {
         return false;
     };
 
+    static verifyUserName(userName){
+
+        const errors = {};
+        const userNameRegex = /^[a-zA-Z0-9_]+$/;
+
+        if(userName.length === ''){
+
+            return errors.userNameExist = 'You must provide a User Name in order to create an account.'
+        };
+
+        if(userName.length < 3){
+
+            errors.userNameExist = 'You must provide a User Name with at least 3 characters in length.'
+        };
+
+        if(!userNameRegex.test(userName)){
+            errors.userNameSpec = 'Only "_" can be used as a special characters. '
+        };
+
+        if(Object.keys(errors) === 0){
+            return false;
+        }
+
+        return errors
+    };
+
     static verifyPassword(password){
 
         const errors = {};
@@ -115,11 +142,13 @@ module.exports = class UserValidator {
         const lastNameValidator = this.verifyLastName(userData.last_name);
         const emailValidator = this.verifyEmail(userData.email);
         const passwordValidator = this.verifyPassword(userData.password);
+        const userNameValidator = this.verifyUserName(userData.user_name);
 
         Object.keys(firstNameValidator).length > 0 ? errors.firstNameValidations = firstNameValidator : null;
         Object.keys(lastNameValidator).length > 0 ? errors.lastNameValidations = lastNameValidator : null;
         Object.keys(emailValidator).length > 0 ? errors.emailValidations = emailValidator : null;
         Object.keys(passwordValidator).length > 0 ? errors.passwordValidations = passwordValidator : null;
+        Object.keys(userNameValidator).length > 0 ? errors.userNameValidations = userNameValidator : null;
 
         return errors;
 

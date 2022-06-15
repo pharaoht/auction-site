@@ -2,7 +2,7 @@ const db = require('../database/database');
 
 module.exports = class User{
 
-    constructor(id, first_name, last_name, email, password, isActive, isAdmin){
+    constructor(id, first_name, last_name, email, password, isActive, isAdmin, user_name){
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -10,11 +10,12 @@ module.exports = class User{
         this.password = password;
         this.isActive = isActive;
         this.isAdmin = isAdmin;
+        this.user_name = user_name;
     }
 
     createNewUser(){
-        return db.execute('INSERT INTO users (id, first_name, last_name, email, password, isActive, isAdmin) VALUES (UUID(),?,?,?,?,?,?)'
-        ,[this.first_name,this.last_name,this.email,this.password,this.isActive,this.isAdmin])
+        return db.execute('INSERT INTO users (id, first_name, last_name, email, password, isActive, isAdmin, user_name) VALUES (UUID(),?,?,?,?,?,?,?)'
+        ,[this.first_name,this.last_name,this.email,this.password,this.isActive,this.isAdmin, this.user_name])
     };
 
     static deleteUserById(id){

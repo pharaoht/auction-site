@@ -12,12 +12,16 @@ exports.accountLogin = (req, res, next) => {
     .then(([user, metaData]) => {
 
         const userInfo = user[0];
+        console.log(userInfo)
 
         if (!user){
             const error = new Error('The information we have recieved does not match our records. Please try again.');
             error.status = 401;
             throw error;
         };
+
+        //check if user is activated
+
 
         Bcrypt.compare(password, userInfo.password)
         .then(doMatch => {
@@ -33,10 +37,10 @@ exports.accountLogin = (req, res, next) => {
                     isAdmin:userInfo.isAdmin
                 }, 'superlongreallylongstringofstrings', {expiresIn: '1h'})
 
-                res.status(200).json({token:token, userId: userInfo.id, })
+                return res.status(200).json({token:token, userId: userInfo.id, user:userInfo});
             };
 
-            const error = new Error()
+            const error = new Error();
             error.message = 'The information we have recieved does not match our records. Please try again.';
             error.status = 401;
             throw error;

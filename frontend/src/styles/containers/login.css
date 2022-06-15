@@ -1,0 +1,4 @@
+.login-parent-container{
+    display: flex;
+    justify-content: space-around;
+}

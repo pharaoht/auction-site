@@ -13,30 +13,20 @@ const useHttp = (requestObj, callback) => {
         try{
             let response;
 
-            if(requestObj.method === 'GET' || requestObj.method === 'DELETE'){
+            if(requestObj.method === "GET") response = await axios.get(requestObj.url);
+            if(requestObj.method === "DELETE") response = await axios.delete(requestObj.url);
+            if(requestObj.method === "PUT") response = await axios.put(requestObj.url, requestObj.body);
+            if(requestObj.method === "PATCH") response = await axios.patch(requestObj.url, requestObj.body);
+            if(requestObj.method === "POST") response = await axios.post(requestObj.url, requestObj.body);
 
-                response = await axios(requestObj.url, 
-                    { 
-                        method: requestObj.method,
-                        headers: requestObj.headers,
-                    }
-                )
-            }
-            else{
-                
-                response = await axios(requestObj.url, 
-                    { 
-                        method: requestObj.method,
-                        headers: requestObj.headers,
-                        body: requestObj.body
-                    }
-                )
-            }
             console.log(response)
 
-            if(response.status !== 200) throw new Error('Request Failed')
+            if(response.status !== 200) {
+                callback(response.status)
+                throw new Error('Request Failed')
+            };
             
-            callback(response.data.result);
+            callback(response.data);
             setIsLoading(false);
 
         }

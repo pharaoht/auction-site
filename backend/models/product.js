@@ -16,6 +16,7 @@ module.exports = class Product{
         this.auction_start = auction_start;
         this.total_bids = total_bids;
         this.isSold = isSold;
+        
 
     };
 
