@@ -1,4 +1,5 @@
 const Product = require('../../models/product');
+const Util = require('../../util/util');
 const ProductValidator = require('../../validator/productValidator');
 
 exports.getProductsSoonToStart = (req, res, next) => {
@@ -42,16 +43,18 @@ exports.getAllProducts = (req, res, next) => {
 
 exports.createNewProduct = (req, res, next) => {
 
+    const date = Util.dateFormater();
+
     const productData = { 
-        ownerId: req.body.userID,
-        product_desc: req.body.product_desc,
+        ownerId: req.body.userId,
+        product_desc: req.body.desc,
         photo1: req.file.path,
         photo2: null,
         photo3: null,
         bid_price: 0,
-        upload_date: null,
+        upload_date: date,
         product_name: req.body.product_name,
-        auction_start: req.body.auction_start,
+        auction_start: date,
         total_bids: 0,
         isSold: 0
     };

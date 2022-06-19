@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import useHttp from "../hooks/useHttp";
 import { userActions } from '../stateslices/userState';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import '../styles/components/forms.css';
 
 export const LoginForm = () => {
 
     const [formData, setFormData] = useState({ email: null, password: null });
+
     const dispatch = useDispatch();
+
+    const isAuth = useSelector((state) => state.isAuthenticated);
+
+    const linkRef = useRef();
 
     const requestObject = {
         method: 'POST',
@@ -15,12 +23,9 @@ export const LoginForm = () => {
         body: formData,
     };
 
-    const requestCallback = (data) => {
-        console.log(data)
-        dispatch(userActions.login(data));
-    };
+    const requestCallback = data => dispatch(userActions.login(data));
 
-    const { isLoading, error, sendRequest } = useHttp(requestObject, requestCallback);
+    const { sendRequest } = useHttp(requestObject, requestCallback);
 
     const changeHandler = event => setFormData({ ...formData, [event.target.name]: event.target.value })
 
@@ -29,9 +34,12 @@ export const LoginForm = () => {
         sendRequest();
     }
 
+    useEffect(() => { isAuth && linkRef.current.click() }, [isAuth])
+
     return (
         <>
             <form onSubmit={submitHandler}>
+                <Link id='link' to='/' ref={linkRef}>-</Link>
                 <div>
                     Email
                     <input type='email' name='email' onChange={changeHandler} required />
@@ -67,7 +75,7 @@ export const SignUpForm = () => {
 
     const requestCallback = (statusCode) => { };
 
-    const { isLoading, error, sendRequest } = useHttp(requestObject, requestCallback);
+    const { sendRequest } = useHttp(requestObject, requestCallback);
 
     const changeHandler = (event) => setFormData({ ...formData, [event.target.name]: event.target.value })
 
@@ -107,23 +115,80 @@ export const SignUpForm = () => {
     )
 };
 
-export const CreateNewProductForm = ({ onChangeFunc, onSubmitHandler }) => {
+export const CreateNewProductForm = () => {
+
+    const [productData, setProductData] = useState({ product_name: null, desc: null, photo1: null });
+
+    const userId = useSelector((state) => state.userId);
+
+    const token = localStorage.getItem('token');
+
+    const formData = new FormData();
+
+    const requestObj = {
+        method: 'POST',
+        url: 'http://localhost:4000/products/create-new-product/',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+
+        },
+        body: formData,
+    };
+
+    const requestCallback = data => console.log(data);
+
+    const { isLoading, error, sendRequest } = useHttp(requestObj, requestCallback);
+
+    const changeHandler = event => setProductData({ ...productData, [event.target.name]: event.target.value });
+
+    const submitHandler = (event) => {
+        event.preventDefault();
+
+        let lastIndex = productData.photo1.lastIndexOf('\\')
+
+        if (lastIndex > 0) {
+            productData.photo1 = productData.photo1.substring(lastIndex + 1);
+        };
+
+        formData.append('product_name', productData.product_name);
+        formData.append('desc', productData.desc);
+        formData.append('userId', userId);
+        formData.append('image', productData.photo1);
+
+
+        sendRequest();
+
+    };
+
     return (
         <>
-            <form onSubmit={onSubmitHandler} className='product-form-container'>
+            <form onSubmit={submitHandler} className='product-form-container' enctype='multipart/form-data'>
                 <div>
-                    <input type='text' name='product_name' onChange={onChangeFunc} />
+                    <h2>Add New Product</h2>
                 </div>
                 <div>
-                    <textarea name='desc' onChange={onChangeFunc}></textarea>
+                    <span>Name of your product</span>
+                    <p>
+                        <input type='text' name='product_name' onChange={changeHandler} />
+                    </p>
                 </div>
                 <div>
-                    <input type='file' name='photo1' onChange={onChangeFunc} />
+                    <span>Describe your product</span>
+                    <p>
+                        <textarea name='desc' onChange={changeHandler}></textarea>
+                    </p>
+                </div>
+                <div>
+                    <span>Upload photo of product</span>
+                    <p>
+                        <input type='file' name='photo1' onChange={changeHandler} />
+                    </p>
                 </div>
                 <div>
                     <button type='submit'>Create</button>
                 </div>
             </form>
+
         </>
     )
 };

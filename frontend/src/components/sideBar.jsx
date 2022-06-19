@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../styles/components/sideBar.css';
 
 const SideBar = () => {
 
     const [toggle, setToggle] = useState(false);
+
+    const isAuth = useSelector((state) => state.isAuthenticated);
+
+    const messageURL = isAuth ? '/messages' : '/login';
+
+    const listingsURL = isAuth ? '/your-listings' : '/login';
 
     const cssClass = toggle ? 'active' : '';
 
@@ -15,13 +22,13 @@ const SideBar = () => {
             <div className={`navigation ${cssClass}`}>
                 <ul className='sidebar-ul'>
                     <li className='sidebar-li'>
-                        <Link to='/messages'>
+                        <Link to={messageURL}>
                             <span className='icon'><i className='fa fa-comments-o' aria-hidden='true'></i></span>
                             <span className='title'>Messages</span>
                         </Link>
                     </li>
                     <li className='sidebar-li'>
-                        <Link to='/your-listings'>
+                        <Link to={listingsURL}>
                             <span className='icon'><i className='fa fa-list' aria-hidden='true'></i></span>
                             <span className='title'>Your Listings</span>
                         </Link>

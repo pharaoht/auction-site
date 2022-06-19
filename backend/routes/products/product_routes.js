@@ -10,7 +10,7 @@ router.get('/get-all-products/', productController.getAllProducts);
 
 router.get('/find-products/:userid/', productController.getAllProductsByUserId);
 
-router.post('/create-new-product/', authMiddleWare.isAuthenticated, multerMiddleWare.sendFile, productController.createNewProduct);
+router.post('/create-new-product/',  multerMiddleWare.sendFile, productController.createNewProduct);
 
 router.delete('/delete/:productid/', authMiddleWare.isAuthenticated, productController.deleteProduct);
 

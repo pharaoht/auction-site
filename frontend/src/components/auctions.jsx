@@ -4,14 +4,7 @@ import Product from './product';
 
 const Auctions = ({ listings }) => {
 
-    console.log(listings)
     const renderListings = () => {
-
-        if (listings.length === 0) {
-            return (
-                <>No Products Available</>
-            )
-        }
 
         return (
             listings.map((itm, idx) => {
@@ -23,18 +16,15 @@ const Auctions = ({ listings }) => {
                         isSold={itm.isSold}
                         photo={itm.photo1}
                         userId={itm.ownerID}
-
                     />
-
                 )
             })
         )
-
     }
 
     return (
         <div className='auctions-parent-container'>
-            {renderListings()}
+            {listings.length > 1 ? renderListings() : 'No Products Available'}
         </div>
     )
 };

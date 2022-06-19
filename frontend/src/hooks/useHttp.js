@@ -17,7 +17,7 @@ const useHttp = (requestObj, callback) => {
             if(requestObj.method === "DELETE") response = await axios.delete(requestObj.url);
             if(requestObj.method === "PUT") response = await axios.put(requestObj.url, requestObj.body);
             if(requestObj.method === "PATCH") response = await axios.patch(requestObj.url, requestObj.body);
-            if(requestObj.method === "POST") response = await axios.post(requestObj.url, requestObj.body);
+            if(requestObj.method === "POST") response = await axios.post(requestObj.url, requestObj.body, requestObj);
 
             console.log(response)
 

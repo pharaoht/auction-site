@@ -31,7 +31,7 @@ module.exports = class User{
     };
 
     static getAdminUsers(){
-        return db.execute('SELECT * FROM users WHERE isAdmin = TRUE')
+        return db.execute('SELECT * FROM users WHERE isAdmin = 1')
     };
 
     static findUserByEmail(email){
@@ -39,6 +39,6 @@ module.exports = class User{
     };
 
     static activateUser(id){
-        return db.execute('UPDATE users SET isActive = TRUE WHERE user.id = ?', [id])
+        return db.execute('UPDATE users SET isActive = 1 WHERE user.id = ?', [id])
     };
 };
