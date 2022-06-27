@@ -12,9 +12,46 @@ const productRoutes = require('./routes/products/product_routes');
 
 //custom middleware
 const authMiddleWare = require('./middleware/auth-middleware');
+const multer = require('multer');
 
-app.use(bodyParser.urlencoded({ extended: false }));
+const fileStorage = multer.diskStorage({
+
+      destination: (req, file, callback) => {
+        console.log(req)
+          callback(null, 'images');
+      },
+      filename: (req, file, callback) => {
+          const date = new Date().toISOString().replace(/:/g, '-');
+          callback(null, date + 'xx' + file.originalname);
+      }
+  })
+
+
+function fileFilter(req, file, callback){
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg'){
+        callback(null, true)
+    }
+    else {
+        callback(null, false)
+    }
+};
+
+
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(multer({storage:multer.diskStorage({
+
+      destination: (req, file, callback) => {
+        console.log(req)
+          callback(null, 'images');
+      },
+      filename: (req, file, callback) => {
+          const date = new Date().toISOString().replace(/:/g, '-');
+          callback(null, date + 'xx' + file.originalname);
+      }
+  })}).single('image'))
 app.use(cors())
 app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(authMiddleWare.corsMiddleWare);

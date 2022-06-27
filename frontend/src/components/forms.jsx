@@ -144,12 +144,6 @@ export const CreateNewProductForm = () => {
     const submitHandler = (event) => {
         event.preventDefault();
 
-        let lastIndex = productData.photo1.lastIndexOf('\\')
-
-        if (lastIndex > 0) {
-            productData.photo1 = productData.photo1.substring(lastIndex + 1);
-        };
-
         formData.append('product_name', productData.product_name);
         formData.append('desc', productData.desc);
         formData.append('userId', userId);
@@ -162,7 +156,7 @@ export const CreateNewProductForm = () => {
 
     return (
         <>
-            <form onSubmit={submitHandler} className='product-form-container' enctype='multipart/form-data'>
+            <form onSubmit={submitHandler} className='product-form-container'>
                 <div>
                     <h2>Add New Product</h2>
                 </div>

@@ -3,11 +3,11 @@ const multer = require('multer');
 module.exports = class FileUploadClass{
 
     static fileStorage(){
-        console.log('storage *********')
+
         return multer.diskStorage({
 
             destination: (req, file, callback) => {
-                console.log('destination ************')
+
                 callback(null, 'images');
             },
 

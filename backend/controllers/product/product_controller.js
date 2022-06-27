@@ -48,7 +48,7 @@ exports.createNewProduct = (req, res, next) => {
     const productData = { 
         ownerId: req.body.userId,
         product_desc: req.body.desc,
-        photo1: req.file.path,
+        photo1: req.body.image,
         photo2: null,
         photo3: null,
         bid_price: 0,

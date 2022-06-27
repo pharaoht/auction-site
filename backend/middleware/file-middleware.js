@@ -2,7 +2,7 @@ const multer = require('multer');
 const FileUploadClass = require('../util/uploads/file_uploads');
 
 exports.sendFile = async(req, res, next) => {
-    console.log(req.headers)
+    
     const fileStorage = FileUploadClass.fileStorage();
     
     // const fileFilter = FileUploadClass.fileFilter();
